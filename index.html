@@ -11,7 +11,7 @@
     <!-- Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     
-    <!-- Tailwind CSS -->
+    <!-- Tailwind CSS (For fallback/static loading) -->
     <script src="https://cdn.tailwindcss.com"></script>
     <script>
       tailwind.config = {
@@ -31,12 +31,21 @@
       }
     </script>
     
-    <!-- Icons -->
-    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- GitHub Pages Process Polyfill -->
+    <script>
+      if (typeof process === 'undefined') {
+        window.process = { env: { API_KEY: '' } };
+      }
+    </script>
 
     <style>
         body { font-family: 'Plus Jakarta Sans', sans-serif; }
-        .reveal { opacity: 0; transform: translateY(30px); transition: all 0.8s ease-out; }
+        
+        /* Set opacity to 1 by default so content is visible even if JS is slow */
+        .reveal { opacity: 1; transform: translateY(0); transition: all 0.8s ease-out; }
+        
+        /* Logic for hiding before scroll */
+        .reveal.hidden-state { opacity: 0; transform: translateY(30px); }
         .reveal.active { opacity: 1; transform: translateY(0); }
         
         /* Gradient Text */
@@ -62,421 +71,27 @@
 </head>
 <body class="bg-slate-50 text-slate-900 overflow-x-hidden">
 
-    <!-- HEADER -->
-    <header class="fixed w-full bg-white/90 backdrop-blur-md shadow-sm z-50">
-        <div class="max-w-7xl mx-auto px-4 h-20 flex justify-between items-center">
-            <div class="flex items-center gap-3">
-                <div class="bg-brand-600 p-2 rounded-lg text-white">
-                    <i data-lucide="trending-up"></i>
-                </div>
-                <div class="flex flex-col">
-                    <span class="text-xl font-extrabold text-slate-900 leading-none">Kanaram Saini</span>
-                    <span class="text-[10px] text-brand-600 font-bold uppercase tracking-widest mt-1">ARN-254674</span>
-                </div>
-            </div>
-            
-            <!-- Desktop Nav -->
-            <nav class="hidden lg:flex space-x-6 items-center">
-                <a href="#home" class="text-slate-600 hover:text-brand-600 font-semibold text-sm">Home</a>
-                <a href="#about" class="text-slate-600 hover:text-brand-600 font-semibold text-sm">About</a>
-                <a href="#services" class="text-slate-600 hover:text-brand-600 font-semibold text-sm">Services</a>
-                <a href="#calculators" class="text-slate-600 hover:text-brand-600 font-semibold text-sm">Calculators</a>
-                <a href="#funds" class="text-slate-600 hover:text-brand-600 font-semibold text-sm">Top Funds</a>
-                <a href="https://zfunds.in/visiting-card/487ceaee-9660-40f5-9bac-352008e518b4" target="_blank" class="px-5 py-2.5 bg-brand-600 text-white font-bold rounded-full hover:bg-brand-700 transition shadow-lg shadow-brand-500/30 flex items-center">
-                    <i data-lucide="user-plus" class="w-4 h-4 mr-2"></i> Invest Now
-                </a>
-            </nav>
+    <div id="root"></div>
+    <script type="module" src="./index.tsx"></script>
 
-            <!-- Mobile Menu Button -->
-            <button onclick="toggleMenu()" class="lg:hidden p-2 text-slate-600">
-                <i data-lucide="menu"></i>
-            </button>
-        </div>
-
-        <!-- Mobile Nav -->
-        <div id="mobile-menu" class="hidden lg:hidden bg-white border-t border-slate-100 absolute w-full shadow-xl">
-            <div class="px-4 py-4 space-y-3">
-                <a href="#home" onclick="toggleMenu()" class="block font-medium text-slate-700">Home</a>
-                <a href="#about" onclick="toggleMenu()" class="block font-medium text-slate-700">About</a>
-                <a href="#services" onclick="toggleMenu()" class="block font-medium text-slate-700">Services</a>
-                <a href="#calculators" onclick="toggleMenu()" class="block font-medium text-slate-700">Calculators</a>
-                <a href="https://zfunds.in/visiting-card/487ceaee-9660-40f5-9bac-352008e518b4" target="_blank" class="block w-full text-center py-3 bg-brand-600 text-white rounded-lg font-bold">Invest Now</a>
-            </div>
-        </div>
-    </header>
-
-    <!-- HERO SECTION -->
-    <section id="home" class="relative pt-32 pb-20 lg:pt-40 lg:pb-32 overflow-hidden bg-slate-50">
-        <div class="max-w-7xl mx-auto px-4 relative z-10 flex flex-col lg:flex-row items-center gap-12">
-            <div class="flex-1 text-center lg:text-left reveal">
-                <div class="inline-flex items-center px-4 py-2 rounded-full bg-white border border-slate-200 shadow-sm text-slate-700 text-sm font-semibold mb-8">
-                    <span class="flex h-2.5 w-2.5 bg-growth-500 rounded-full mr-3 animate-pulse"></span>
-                    Managing ₹1.7 Crore+ AUM
-                </div>
-                <h1 class="text-4xl lg:text-6xl font-extrabold text-slate-900 leading-tight mb-6">
-                    Smart Investing for a <br> <span class="text-gradient">Wealthier Future</span>
-                </h1>
-                <p class="text-lg text-slate-600 mb-10">
-                    Experience professional mutual fund portfolio management. Tailored strategies for retirement, education, and long-term wealth by <strong>Kanaram Saini</strong>.
-                </p>
-                <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                    <a href="#contact" class="px-8 py-4 bg-brand-600 text-white font-bold rounded-xl shadow-lg hover:bg-brand-700 transition flex items-center justify-center">
-                        Request Callback <i data-lucide="arrow-right" class="ml-2 w-5 h-5"></i>
-                    </a>
-                </div>
-            </div>
-            <div class="flex-1 relative reveal delay-200">
-                <img src="https://images.unsplash.com/photo-1579532537598-459ecdaf39cc?w=1000&q=80" alt="Finance" class="rounded-3xl shadow-2xl border-8 border-white w-full">
-            </div>
-        </div>
-    </section>
-
-    <!-- PARTNERS MARQUEE -->
-    <section class="py-12 bg-white border-b border-slate-100 overflow-hidden">
-        <p class="text-center text-sm font-bold text-slate-500 uppercase tracking-widest mb-8">Distributing Schemes From Top Fund Houses</p>
-        <div class="relative flex overflow-x-hidden group">
-            <div class="animate-marquee whitespace-nowrap flex items-center gap-16">
-                <!-- Logos (Repeated for effect) -->
-                <img src="https://logo.clearbit.com/sbimf.com" class="h-12 w-auto grayscale opacity-60">
-                <img src="https://logo.clearbit.com/hdfcfund.com" class="h-12 w-auto grayscale opacity-60">
-                <img src="https://logo.clearbit.com/icicipruamc.com" class="h-12 w-auto grayscale opacity-60">
-                <img src="https://logo.clearbit.com/nipponindiamf.com" class="h-12 w-auto grayscale opacity-60">
-                <img src="https://logo.clearbit.com/axismf.com" class="h-12 w-auto grayscale opacity-60">
-                <img src="https://logo.clearbit.com/sbimf.com" class="h-12 w-auto grayscale opacity-60">
-                <img src="https://logo.clearbit.com/hdfcfund.com" class="h-12 w-auto grayscale opacity-60">
-                <img src="https://logo.clearbit.com/icicipruamc.com" class="h-12 w-auto grayscale opacity-60">
-            </div>
-        </div>
-    </section>
-
-    <!-- ABOUT SECTION -->
-    <section id="about" class="py-24 bg-white reveal">
-        <div class="max-w-7xl mx-auto px-4 flex flex-col lg:flex-row items-center gap-16">
-            <div class="lg:w-1/2 relative">
-                <img src="https://i.ibb.co/RpdJWy8W/Whats-App-Image-2025-12-04-at-10-42-06-PM.jpg" onerror="this.src='https://images.unsplash.com/photo-1556761175-5973dc0f32e7?w=800&q=80'" class="rounded-3xl shadow-2xl w-full border-8 border-slate-50" alt="Kanaram Saini">
-                <div class="absolute -bottom-6 -right-6 bg-white p-6 rounded-xl shadow-xl border hidden md:block">
-                    <p class="text-xs font-bold text-slate-500 uppercase">AUM Managed</p>
-                    <p class="text-2xl font-extrabold text-slate-900">₹1.7 Crore+</p>
-                </div>
-            </div>
-            <div class="lg:w-1/2">
-                <h2 class="text-3xl font-extrabold text-slate-900 mb-6">15+ Years of Trust & Expertise</h2>
-                <p class="text-lg text-slate-600 mb-6">
-                    Hello, I am <strong>Kanaram Saini</strong> (ARN-254674). I help Indian families build wealth through disciplined Mutual Fund investments. My focus is on goal-based planning and long-term asset allocation.
-                </p>
-                <div class="grid grid-cols-2 gap-4">
-                    <div class="flex items-center"><i data-lucide="check-circle" class="text-growth-500 w-5 h-5 mr-2"></i> AMFI Registered</div>
-                    <div class="flex items-center"><i data-lucide="check-circle" class="text-growth-500 w-5 h-5 mr-2"></i> Goal Planning</div>
-                    <div class="flex items-center"><i data-lucide="check-circle" class="text-growth-500 w-5 h-5 mr-2"></i> Risk Analysis</div>
-                    <div class="flex items-center"><i data-lucide="check-circle" class="text-growth-500 w-5 h-5 mr-2"></i> Portfolio Review</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- WHY CHOOSE US -->
-    <section class="py-20 bg-slate-50 reveal">
-        <div class="max-w-7xl mx-auto px-4 grid lg:grid-cols-2 gap-12 items-center">
-            <div>
-                <span class="text-brand-600 font-bold uppercase text-sm">The Human Touch</span>
-                <h2 class="text-3xl font-extrabold text-slate-900 mt-2 mb-6">Why choose a Personal Distributor over an App?</h2>
-                <p class="text-slate-600 mb-6">Investing apps provide tools, but they don't provide guidance. During market crashes, an app won't pick up your call to reassure you. We do.</p>
-            </div>
-            <div class="bg-white rounded-3xl p-8 shadow-xl border border-slate-100">
-                <div class="grid grid-cols-2 text-center">
-                    <div class="pb-4 border-b border-r text-slate-400 font-bold">DIY Apps</div>
-                    <div class="pb-4 border-b text-brand-600 font-bold bg-brand-50 rounded-tr-xl">Kanaram Saini</div>
-                    
-                    <div class="p-4 border-b border-r text-slate-500 text-sm">No Guidance</div>
-                    <div class="p-4 border-b bg-brand-50/30 text-slate-800 font-bold text-sm">Dedicated Support</div>
-                    
-                    <div class="p-4 border-r text-slate-500 text-sm">Generic Algo</div>
-                    <div class="p-4 bg-brand-50/30 text-slate-800 font-bold text-sm rounded-br-xl">Personal Strategy</div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- INVESTMENT GOALS -->
-    <section class="py-20 bg-white reveal">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-3xl font-extrabold text-center mb-12">Plan for Your Life Goals</h2>
-            <div class="grid md:grid-cols-4 gap-6">
-                <!-- Goal 1 -->
-                <div class="p-6 border border-slate-100 rounded-2xl hover:shadow-lg transition">
-                    <div class="w-12 h-12 bg-brand-100 rounded-lg flex items-center justify-center mb-4 text-brand-600"><i data-lucide="palmtree"></i></div>
-                    <h3 class="font-bold text-lg mb-2">Retirement</h3>
-                    <p class="text-slate-500 text-sm mb-4">Secure your golden years with a stress-free corpus.</p>
-                    <a href="#contact" class="text-brand-600 text-sm font-bold flex items-center">Plan Now <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a>
-                </div>
-                <!-- Goal 2 -->
-                <div class="p-6 border border-slate-100 rounded-2xl hover:shadow-lg transition">
-                    <div class="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4 text-purple-600"><i data-lucide="graduation-cap"></i></div>
-                    <h3 class="font-bold text-lg mb-2">Education</h3>
-                    <p class="text-slate-500 text-sm mb-4">Build a fund for your child's higher education.</p>
-                    <a href="#contact" class="text-brand-600 text-sm font-bold flex items-center">Plan Now <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a>
-                </div>
-                <!-- Goal 3 -->
-                <div class="p-6 border border-slate-100 rounded-2xl hover:shadow-lg transition">
-                    <div class="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4 text-green-600"><i data-lucide="coins"></i></div>
-                    <h3 class="font-bold text-lg mb-2">Wealth</h3>
-                    <p class="text-slate-500 text-sm mb-4">Beat inflation with high-growth equity funds.</p>
-                    <a href="#contact" class="text-brand-600 text-sm font-bold flex items-center">Plan Now <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a>
-                </div>
-                <!-- Goal 4 -->
-                <div class="p-6 border border-slate-100 rounded-2xl hover:shadow-lg transition">
-                    <div class="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4 text-orange-600"><i data-lucide="home"></i></div>
-                    <h3 class="font-bold text-lg mb-2">Dream Home</h3>
-                    <p class="text-slate-500 text-sm mb-4">Accumulate down payment systematically.</p>
-                    <a href="#contact" class="text-brand-600 text-sm font-bold flex items-center">Plan Now <i data-lucide="arrow-right" class="w-4 h-4 ml-1"></i></a>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- CALCULATORS -->
-    <section id="calculators" class="py-24 bg-slate-50 reveal">
-        <div class="max-w-5xl mx-auto px-4">
-            <div class="text-center mb-12">
-                <h2 class="text-3xl font-extrabold">Financial Calculators</h2>
-                <p class="text-slate-600">Visualize your financial growth.</p>
-            </div>
-            
-            <div class="bg-white rounded-3xl shadow-xl overflow-hidden">
-                <div class="flex border-b">
-                    <button onclick="switchTab('sip')" id="tab-sip" class="flex-1 py-4 font-bold text-brand-600 bg-slate-50 border-b-2 border-brand-600">SIP Calculator</button>
-                    <button onclick="switchTab('swp')" id="tab-swp" class="flex-1 py-4 font-bold text-slate-500 hover:bg-slate-50">SWP Calculator</button>
-                </div>
-
-                <div class="p-8">
-                    <!-- SIP Content -->
-                    <div id="content-sip" class="grid md:grid-cols-2 gap-12">
-                        <div class="space-y-6">
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-2">Monthly Investment (₹)</label>
-                                <input type="range" min="500" max="100000" step="500" value="5000" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600" oninput="updateSIP()">
-                                <p class="text-right font-bold text-brand-600 mt-1" id="sip-amount-display">₹5,000</p>
-                            </div>
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-2">Expected Return (%)</label>
-                                <input type="range" min="5" max="30" step="0.5" value="12" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600" oninput="updateSIP()">
-                                <p class="text-right font-bold text-brand-600 mt-1" id="sip-rate-display">12%</p>
-                            </div>
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-2">Time Period (Years)</label>
-                                <input type="range" min="1" max="40" step="1" value="10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600" oninput="updateSIP()">
-                                <p class="text-right font-bold text-brand-600 mt-1" id="sip-years-display">10 Years</p>
-                            </div>
-                        </div>
-                        <div class="bg-slate-50 p-6 rounded-2xl border text-center flex flex-col justify-center">
-                            <p class="text-slate-500 text-sm">Total Value</p>
-                            <p class="text-3xl font-extrabold text-brand-700 mb-4" id="sip-total">₹11,61,695</p>
-                            <div class="text-sm text-slate-600 space-y-2">
-                                <div class="flex justify-between"><span>Invested:</span> <span class="font-bold" id="sip-invested">₹6,00,000</span></div>
-                                <div class="flex justify-between"><span>Wealth Gained:</span> <span class="font-bold text-green-600" id="sip-gained">₹5,61,695</span></div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- SWP Content (Hidden by default) -->
-                    <div id="content-swp" class="hidden grid md:grid-cols-2 gap-12">
-                         <div class="space-y-6">
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-2">Total Investment (₹)</label>
-                                <input type="range" min="100000" max="5000000" step="10000" value="1000000" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600" oninput="updateSWP()">
-                                <p class="text-right font-bold text-brand-600 mt-1" id="swp-amount-display">₹10,00,000</p>
-                            </div>
-                            <div>
-                                <label class="block font-bold text-slate-700 mb-2">Monthly Withdrawal (₹)</label>
-                                <input type="range" min="1000" max="50000" step="500" value="6000" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600" oninput="updateSWP()">
-                                <p class="text-right font-bold text-brand-600 mt-1" id="swp-withdraw-display">₹6,000</p>
-                            </div>
-                             <div>
-                                <label class="block font-bold text-slate-700 mb-2">Time Period (Years)</label>
-                                <input type="range" min="1" max="30" step="1" value="10" class="w-full h-2 bg-slate-200 rounded-lg appearance-none cursor-pointer accent-brand-600" oninput="updateSWP()">
-                                <p class="text-right font-bold text-brand-600 mt-1" id="swp-years-display">10 Years</p>
-                            </div>
-                        </div>
-                        <div class="bg-slate-50 p-6 rounded-2xl border text-center flex flex-col justify-center">
-                            <p class="text-slate-500 text-sm">Final Value Left</p>
-                            <p class="text-3xl font-extrabold text-green-600 mb-4" id="swp-final">₹11,00,324</p>
-                            <div class="text-sm text-slate-600 space-y-2">
-                                <div class="flex justify-between"><span>Total Withdrawn:</span> <span class="font-bold" id="swp-total-withdraw">₹7,20,000</span></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- TOP FUNDS (Static Fallback for Reliability) -->
-    <section id="funds" class="py-24 bg-white reveal">
-        <div class="max-w-7xl mx-auto px-4">
-            <h2 class="text-3xl font-extrabold mb-8">Top Performing Funds</h2>
-            <div class="overflow-x-auto border rounded-2xl shadow-sm">
-                <table class="w-full text-left text-sm text-slate-600">
-                    <thead class="bg-slate-50 text-slate-900 font-bold uppercase text-xs">
-                        <tr>
-                            <th class="px-6 py-4">Fund Name</th>
-                            <th class="px-6 py-4">Category</th>
-                            <th class="px-6 py-4">3Y Returns</th>
-                            <th class="px-6 py-4">Risk</th>
-                        </tr>
-                    </thead>
-                    <tbody class="divide-y divide-slate-100">
-                        <tr>
-                            <td class="px-6 py-4 font-bold text-slate-900">Nippon India Small Cap</td>
-                            <td class="px-6 py-4"><span class="bg-slate-100 px-2 py-1 rounded">Small Cap</span></td>
-                            <td class="px-6 py-4 text-green-600 font-bold">32.5%</td>
-                            <td class="px-6 py-4"><span class="bg-red-50 text-red-600 px-2 py-1 rounded text-xs font-bold">Very High</span></td>
-                        </tr>
-                        <tr>
-                            <td class="px-6 py-4 font-bold text-slate-900">Quant Mid Cap Fund</td>
-                            <td class="px-6 py-4"><span class="bg-slate-100 px-2 py-1 rounded">Mid Cap</span></td>
-                            <td class="px-6 py-4 text-green-600 font-bold">28.4%</td>
-                            <td class="px-6 py-4"><span class="bg-orange-50 text-orange-600 px-2 py-1 rounded text-xs font-bold">High</span></td>
-                        </tr>
-                         <tr>
-                            <td class="px-6 py-4 font-bold text-slate-900">Parag Parikh Flexi Cap</td>
-                            <td class="px-6 py-4"><span class="bg-slate-100 px-2 py-1 rounded">Flexi Cap</span></td>
-                            <td class="px-6 py-4 text-green-600 font-bold">22.1%</td>
-                            <td class="px-6 py-4"><span class="bg-orange-50 text-orange-600 px-2 py-1 rounded text-xs font-bold">High</span></td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-            <p class="text-xs text-slate-500 mt-4">* Past performance is not an indicator of future returns.</p>
-        </div>
-    </section>
-
-    <!-- CONTACT FORM -->
-    <section id="contact" class="py-24 bg-slate-900 text-white reveal">
-        <div class="max-w-4xl mx-auto px-4">
-            <div class="bg-brand-600 rounded-3xl p-8 md:p-12 shadow-2xl flex flex-col md:flex-row gap-12">
-                <div class="md:w-1/2">
-                    <h2 class="text-3xl font-extrabold mb-4">Request a Callback</h2>
-                    <p class="text-brand-100 mb-8">Fill the details and I will contact you via WhatsApp.</p>
-                    <div class="flex items-center gap-3 mb-2"><i data-lucide="phone"></i> +91 72067 70673</div>
-                    <div class="flex items-center gap-3"><i data-lucide="mail"></i> Kanheya@live.com</div>
-                </div>
-                <div class="md:w-1/2 bg-white rounded-xl p-6 text-slate-900">
-                    <form onsubmit="sendWhatsapp(event)">
-                        <div class="mb-4">
-                            <label class="block text-sm font-bold mb-1">Name</label>
-                            <input type="text" id="c-name" required class="w-full p-3 border rounded-lg">
-                        </div>
-                        <div class="mb-4">
-                            <label class="block text-sm font-bold mb-1">Phone</label>
-                            <input type="tel" id="c-phone" required class="w-full p-3 border rounded-lg">
-                        </div>
-                        <button type="submit" class="w-full py-3 bg-brand-600 text-white font-bold rounded-lg hover:bg-brand-700 transition">Send Message</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
-
-    <!-- FOOTER -->
-    <footer class="bg-slate-950 text-slate-400 py-12 border-t border-slate-800">
-        <div class="max-w-7xl mx-auto px-4 text-center">
-            <p class="mb-4">&copy; 2024 Kanaram Saini. ARN-254674. All rights reserved.</p>
-            <p class="text-xs max-w-2xl mx-auto leading-relaxed">Disclaimer: Mutual Fund investments are subject to market risks, read all scheme related documents carefully. Past performance is not an indicator of future returns.</p>
-        </div>
-    </footer>
-
-    <!-- WhatsApp Sticky -->
-    <a href="https://wa.me/917206770673" target="_blank" class="fixed bottom-6 right-6 bg-green-500 p-4 rounded-full text-white shadow-xl hover:scale-110 transition z-50 animate-bounce">
-        <i data-lucide="message-circle" class="w-8 h-8"></i>
-    </a>
-
-    <!-- SCRIPTS -->
     <script>
-        // Initialize Icons
-        lucide.createIcons();
+      // Initialize Reveal Animation
+      window.addEventListener('load', () => {
+        const elements = document.querySelectorAll('.reveal');
+        
+        // Use IntersectionObserver
+        const observer = new IntersectionObserver((entries) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.remove('hidden-state');
+              entry.target.classList.add('active');
+            }
+          });
+        }, { threshold: 0.1 });
 
-        // Reveal Animation
-        window.addEventListener('load', () => {
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach(entry => {
-                    if (entry.isIntersecting) entry.target.classList.add('active');
-                });
-            });
-            document.querySelectorAll('.reveal').forEach(el => observer.observe(el));
-            
-            // Initial Calc run
-            updateSIP();
-        });
-
-        // Mobile Menu
-        function toggleMenu() {
-            const menu = document.getElementById('mobile-menu');
-            menu.classList.toggle('hidden');
-        }
-
-        // WhatsApp Form Logic
-        function sendWhatsapp(e) {
-            e.preventDefault();
-            const name = document.getElementById('c-name').value;
-            const phone = document.getElementById('c-phone').value;
-            const url = `https://wa.me/917206770673?text=Hello, I am ${name} (${phone}). I want to invest.`;
-            window.open(url, '_blank');
-        }
-
-        // Calculator Logic
-        function switchTab(tab) {
-            document.getElementById('content-sip').classList.add('hidden');
-            document.getElementById('content-swp').classList.add('hidden');
-            document.getElementById('tab-sip').className = "flex-1 py-4 font-bold text-slate-500 hover:bg-slate-50";
-            document.getElementById('tab-swp').className = "flex-1 py-4 font-bold text-slate-500 hover:bg-slate-50";
-            
-            document.getElementById('content-' + tab).classList.remove('hidden');
-            document.getElementById('tab-' + tab).className = "flex-1 py-4 font-bold text-brand-600 bg-slate-50 border-b-2 border-brand-600";
-        }
-
-        function formatInr(num) {
-            return new Intl.NumberFormat('en-IN', { style: 'currency', currency: 'INR', maximumFractionDigits: 0 }).format(num);
-        }
-
-        function updateSIP() {
-            // Get inputs from DOM
-            const p = parseFloat(document.querySelector('#content-sip input:nth-of-type(1)').value);
-            const r = parseFloat(document.querySelector('#content-sip input:nth-of-type(2)').value);
-            const t = parseFloat(document.querySelector('#content-sip input:nth-of-type(3)').value);
-
-            // Update Labels
-            document.getElementById('sip-amount-display').innerText = formatInr(p);
-            document.getElementById('sip-rate-display').innerText = r + "%";
-            document.getElementById('sip-years-display').innerText = t + " Years";
-
-            // Calculation
-            const i = r / 12 / 100;
-            const n = t * 12;
-            const invested = p * n;
-            const total = p * ((Math.pow(1 + i, n) - 1) / i) * (1 + i);
-            
-            document.getElementById('sip-invested').innerText = formatInr(invested);
-            document.getElementById('sip-total').innerText = formatInr(total);
-            document.getElementById('sip-gained').innerText = formatInr(total - invested);
-        }
-
-        function updateSWP() {
-             const p = parseFloat(document.querySelector('#content-swp input:nth-of-type(1)').value);
-             const w = parseFloat(document.querySelector('#content-swp input:nth-of-type(2)').value);
-             const t = parseFloat(document.querySelector('#content-swp input:nth-of-type(3)').value);
-
-             document.getElementById('swp-amount-display').innerText = formatInr(p);
-             document.getElementById('swp-withdraw-display').innerText = formatInr(w);
-             document.getElementById('swp-years-display').innerText = t + " Years";
-
-             const i = 8 / 12 / 100; // Assuming 8% conservative for SWP math
-             const n = t * 12;
-             let final = p * Math.pow(1 + i, n) - w * ((Math.pow(1 + i, n) - 1) / i);
-             if(final < 0) final = 0;
-
-             document.getElementById('swp-total-withdraw').innerText = formatInr(w * n);
-             document.getElementById('swp-final').innerText = formatInr(final);
-        }
+        // Apply observation
+        elements.forEach(el => observer.observe(el));
+      });
     </script>
 </body>
 </html>
