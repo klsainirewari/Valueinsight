@@ -3,7 +3,8 @@ import react from '@vitejs/plugin-react';
 
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
-  const env = loadEnv(mode, process.cwd(), '');
+  // Use '.' instead of process.cwd() to avoid errors in some CI environments
+  const env = loadEnv(mode, '.', '');
   
   return {
     base: './', // Ensures relative paths for GitHub Pages
