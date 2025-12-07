@@ -15,7 +15,7 @@ const About: React.FC = () => {
           <div className="lg:w-1/2 relative">
             <div className="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-slate-50 z-10">
               <img
-                src="kanaram.jpg"
+                src="https://i.ibb.co/RpdJWy8W/Whats-App-Image-2025-12-04-at-10-42-06-PM.jpg"
                 onError={(e) => {
                   e.currentTarget.src = "https://images.unsplash.com/photo-1556761175-5973dc0f32e7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80";
                 }}
